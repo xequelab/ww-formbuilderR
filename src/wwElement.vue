@@ -183,8 +183,15 @@ importSchema
 .form-builder {
 display: grid;
 grid-template-columns: 250px 1fr 320px;
+grid-template-rows: 1fr;
 height: 100vh;
+width: 100%;
 background: #f9fafb;
+overflow: hidden;
+}
+
+.form-builder > * {
+height: 100%;
 overflow: hidden;
 }
 
@@ -197,6 +204,7 @@ grid-template-columns: 200px 1fr 280px;
 @media (max-width: 768px) {
 .form-builder {
 grid-template-columns: 1fr;
+grid-template-rows: auto auto auto;
 }
 }
 </style>
