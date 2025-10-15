@@ -1,0 +1,1 @@
+{"name":"modern-form-builder","version":"1.0.0","scripts":{"build":"weweb build","serve":"weweb serve"},"dependencies":{"vuedraggable":"^4.1.0","uuid":"^9.0.1"},"devDependencies":{}}
