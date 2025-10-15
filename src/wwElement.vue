@@ -1,7 +1,8 @@
 <template>
 <div class="form-builder">
+<div class="form-builder-grid">
 <FieldPalette />
-    
+
 <FormCanvas
 :fields="fields"
 :selected-field-id="selectedFieldId"
@@ -16,6 +17,7 @@
 @update:selected-field="updateSelectedField"
 @close="selectedFieldId = null"
 />
+</div>
 
 <PreviewModal
 :is-open="showPreview"
@@ -181,30 +183,39 @@ importSchema
 
 <style scoped>
 .form-builder {
-display: grid;
-grid-template-columns: 250px 1fr 320px;
-grid-template-rows: 1fr;
+width: 100%;
 height: 100vh;
+position: relative;
+}
+
+.form-builder-grid {
+display: grid !important;
+grid-template-columns: 250px 1fr 320px !important;
+grid-template-rows: 100% !important;
+height: 100%;
 width: 100%;
 background: #f9fafb;
 overflow: hidden;
+gap: 0;
 }
 
-.form-builder > * {
+.form-builder-grid > * {
 height: 100%;
 overflow: hidden;
+min-width: 0;
 }
 
 @media (max-width: 1024px) {
-.form-builder {
-grid-template-columns: 200px 1fr 280px;
+.form-builder-grid {
+grid-template-columns: 200px 1fr 280px !important;
 }
 }
 
 @media (max-width: 768px) {
-.form-builder {
-grid-template-columns: 1fr;
-grid-template-rows: auto auto auto;
+.form-builder-grid {
+grid-template-columns: 1fr !important;
+grid-template-rows: auto auto auto !important;
+height: auto;
 }
 }
 </style>
