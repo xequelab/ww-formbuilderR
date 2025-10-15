@@ -33,18 +33,6 @@
       </div>
 
       <div class="property-group">
-        <label class="property-label">ID do Campo</label>
-        <input
-          v-model="localField.fieldId"
-          type="text"
-          class="property-input"
-          placeholder="id_do_campo"
-          @input="updateField"
-        />
-        <p class="property-hint">Identificador único para este campo</p>
-      </div>
-
-      <div class="property-group">
         <label class="property-label">Placeholder</label>
         <input
           v-model="localField.placeholder"
@@ -113,6 +101,7 @@ class="property-input"
 placeholder="1"
 @input="updateField"
 />
+<p class="property-hint">Define o intervalo entre valores (ex: 1 = 1,2,3... | 0.5 = 0.5,1,1.5...)</p>
 </div>
 </template>
 
@@ -122,7 +111,7 @@ placeholder="1"
 <h4 class="property-section-title">Configurações de Texto</h4>
 
 <div class="property-group">
-<label class="property-label">Comprimento Máximo</label>
+<label class="property-label">Comprimento Máximo (caracteres)</label>
 <input
 v-model.number="localField.maxLength"
 type="number"
@@ -137,6 +126,7 @@ placeholder="Sem limite"
 <template v-if="['select', 'radio'].includes(localField.type)">
 <div class="property-divider"></div>
 <h4 class="property-section-title">Opções</h4>
+<p class="property-hint" style="margin-top: -8px; margin-bottom: 12px;">Rótulo = texto visível | Valor = dado armazenado</p>
 
 <div
 v-for="(option, index) in localField.options"
@@ -148,14 +138,14 @@ class="option-item"
 v-model="option.label"
 type="text"
 class="option-input"
-placeholder="Rótulo"
+placeholder="Texto visível"
 @input="updateField"
 />
 <input
 v-model="option.value"
 type="text"
 class="option-input"
-placeholder="Valor"
+placeholder="Valor armazenado"
 @input="updateField"
 />
 </div>

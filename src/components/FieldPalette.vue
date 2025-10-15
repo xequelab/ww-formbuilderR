@@ -35,7 +35,7 @@ export default {
     const fieldTypes = ref([
       {
         type: 'text',
-        label: 'Campo de Texto',
+        label: 'Resposta Curta',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>'
       },
       {
@@ -65,7 +65,7 @@ export default {
       },
       {
         type: 'radio',
-        label: 'Botão de Rádio',
+        label: 'Múltipla Escolha',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>'
       },
       {
