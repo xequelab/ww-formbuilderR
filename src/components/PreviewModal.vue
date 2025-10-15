@@ -59,13 +59,18 @@ v-for="(option, idx) in field.options"
 </select>
 
 <div v-else-if="field.type === 'checkbox'" class="form-checkbox-wrapper">
-<label class="form-checkbox-label">
+<label
+v-for="(option, idx) in field.options"
+:key="idx"
+class="form-checkbox-label"
+>
 <input
 type="checkbox"
-:required="field.required"
+:name="`checkbox_${field.id}`"
+:value="option.value"
 class="form-checkbox"
 />
-<span>{{ field.placeholder || 'Marque esta caixa' }}</span>
+<span>{{ option.label }}</span>
 </label>
 </div>
 
@@ -239,6 +244,9 @@ font-family: inherit;
 
 .form-checkbox-wrapper {
 padding: 8px 0;
+display: flex;
+flex-direction: column;
+gap: 10px;
 }
 
 .form-checkbox-label,

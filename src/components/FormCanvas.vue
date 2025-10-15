@@ -90,9 +90,15 @@
                     {{ option.label }}
                   </option>
                 </select>
-                <div v-else-if="element.type === 'checkbox'" class="preview-checkbox">
-                  <input type="checkbox" disabled />
-                  <span>{{ element.label }}</span>
+                <div v-else-if="element.type === 'checkbox'" class="preview-checkbox-group">
+                  <div
+                    v-for="(option, idx) in element.options"
+                    :key="idx"
+                    class="preview-checkbox"
+                  >
+                    <input type="checkbox" :name="`checkbox_${element.id}`" disabled />
+                    <span>{{ option.label }}</span>
+                  </div>
                 </div>
                 <div v-else-if="element.type === 'radio'" class="preview-radio-group">
                   <div 
@@ -424,6 +430,7 @@ export default {
   color: #374151;
 }
 
+.preview-checkbox-group,
 .preview-radio-group {
   display: flex;
   flex-direction: column;

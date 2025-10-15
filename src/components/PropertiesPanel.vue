@@ -122,11 +122,10 @@ placeholder="Sem limite"
 </div>
 </template>
 
-<!-- Select/Radio specific properties -->
-<template v-if="['select', 'radio'].includes(localField.type)">
+<!-- Select/Radio/Checkbox specific properties -->
+<template v-if="['select', 'radio', 'checkbox'].includes(localField.type)">
 <div class="property-divider"></div>
 <h4 class="property-section-title">Opções</h4>
-<p class="property-hint" style="margin-top: -8px; margin-bottom: 12px;">Rótulo = texto visível | Valor = dado armazenado</p>
 
 <div
 v-for="(option, index) in localField.options"
@@ -137,16 +136,9 @@ class="option-item"
 <input
 v-model="option.label"
 type="text"
-class="option-input"
-placeholder="Texto visível"
-@input="updateField"
-/>
-<input
-v-model="option.value"
-type="text"
-class="option-input"
-placeholder="Valor armazenado"
-@input="updateField"
+class="option-input-full"
+placeholder="Digite o texto da opção"
+@input="updateOptionLabel(index, $event)"
 />
 </div>
 <button
@@ -200,12 +192,33 @@ emit('update:selectedField', JSON.parse(JSON.stringify(localField.value)));
 }
 };
 
+const generateValueFromLabel = (label) => {
+// Remove acentos e caracteres especiais, converte para minúsculas e substitui espaços por _
+return label
+.normalize('NFD')
+.replace(/[\u0300-\u036f]/g, '')
+.toLowerCase()
+.replace(/[^a-z0-9\s]/g, '')
+.trim()
+.replace(/\s+/g, '_');
+};
+
+const updateOptionLabel = (index, event) => {
+if (localField.value && localField.value.options && localField.value.options[index]) {
+const newLabel = event.target.value;
+localField.value.options[index].label = newLabel;
+localField.value.options[index].value = generateValueFromLabel(newLabel);
+updateField();
+}
+};
+
 const addOption = () => {
 if (localField.value && localField.value.options) {
 const optionNumber = localField.value.options.length + 1;
+const label = `Opção ${optionNumber}`;
 localField.value.options.push({
-label: `Opção ${optionNumber}`,
-value: `option${optionNumber}`
+label: label,
+value: generateValueFromLabel(label)
 });
 updateField();
 }
@@ -221,6 +234,7 @@ updateField();
 return {
 localField,
 updateField,
+updateOptionLabel,
 addOption,
 removeOption
 };
@@ -407,6 +421,22 @@ color: #111827;
 }
 
 .option-input:focus {
+outline: none;
+border-color: #3b82f6;
+box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.option-input-full {
+width: 100%;
+padding: 8px 12px;
+font-size: 13px;
+border: 1px solid #d1d5db;
+border-radius: 6px;
+background: #ffffff;
+color: #111827;
+}
+
+.option-input-full:focus {
 outline: none;
 border-color: #3b82f6;
 box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);

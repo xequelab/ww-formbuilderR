@@ -87,10 +87,10 @@ export default {
         icon: field.icon
       };
 
-      if (field.type === 'select' || field.type === 'radio') {
+      if (field.type === 'select' || field.type === 'radio' || field.type === 'checkbox') {
         newField.options = [
-          { label: 'Opção 1', value: 'option1' },
-          { label: 'Opção 2', value: 'option2' }
+          { label: 'Opção 1', value: 'opcao_1' },
+          { label: 'Opção 2', value: 'opcao_2' }
         ];
       }
 
