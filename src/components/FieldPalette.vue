@@ -1,6 +1,6 @@
 <template>
   <div class="field-palette">
-    <h3 class="palette-title">Field Types</h3>
+    <h3 class="palette-title">Tipos de Campos</h3>
     <div class="palette-items">
       <draggable
         :list="fieldTypes"
@@ -35,42 +35,42 @@ export default {
     const fieldTypes = ref([
       {
         type: 'text',
-        label: 'Text Input',
+        label: 'Campo de Texto',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>'
       },
       {
         type: 'textarea',
-        label: 'Textarea',
+        label: 'Área de Texto',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>'
       },
       {
         type: 'number',
-        label: 'Number',
+        label: 'Número',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" /></svg>'
       },
       {
         type: 'email',
-        label: 'Email',
+        label: 'E-mail',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>'
       },
       {
         type: 'select',
-        label: 'Select',
+        label: 'Seleção',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" /></svg>'
       },
       {
         type: 'checkbox',
-        label: 'Checkbox',
+        label: 'Caixa de Seleção',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
       },
       {
         type: 'radio',
-        label: 'Radio',
+        label: 'Botão de Rádio',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>'
       },
       {
         type: 'date',
-        label: 'Date',
+        label: 'Data',
         icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>'
       }
     ]);
@@ -89,8 +89,8 @@ export default {
 
       if (field.type === 'select' || field.type === 'radio') {
         newField.options = [
-          { label: 'Option 1', value: 'option1' },
-          { label: 'Option 2', value: 'option2' }
+          { label: 'Opção 1', value: 'option1' },
+          { label: 'Opção 2', value: 'option2' }
         ];
       }
 

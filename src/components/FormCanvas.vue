@@ -1,10 +1,10 @@
 <template>
   <div class="form-canvas">
     <div class="canvas-header">
-      <h3 class="canvas-title">Form Builder</h3>
+      <h3 class="canvas-title">Construtor de Formulários</h3>
       <div class="canvas-actions">
-        <button 
-          class="action-btn preview-btn" 
+        <button
+          class="action-btn preview-btn"
           @click="$emit('preview')"
           :disabled="fields.length === 0"
         >
@@ -12,17 +12,17 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
-          Preview
+          Visualizar
         </button>
-        <button 
-          class="action-btn clear-btn" 
+        <button
+          class="action-btn clear-btn"
           @click="$emit('clear')"
           :disabled="fields.length === 0"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
-          Clear All
+          Limpar Tudo
         </button>
       </div>
     </div>
@@ -63,25 +63,25 @@
               </div>
               
               <div class="field-preview">
-                <input 
+                <input
                   v-if="['text', 'email', 'number', 'date'].includes(element.type)"
                   :type="element.type"
-                  :placeholder="element.placeholder || `Enter ${element.label.toLowerCase()}`"
+                  :placeholder="element.placeholder || `Digite ${element.label.toLowerCase()}`"
                   class="preview-input"
                   disabled
                 />
-                <textarea 
+                <textarea
                   v-else-if="element.type === 'textarea'"
-                  :placeholder="element.placeholder || `Enter ${element.label.toLowerCase()}`"
+                  :placeholder="element.placeholder || `Digite ${element.label.toLowerCase()}`"
                   class="preview-textarea"
                   disabled
                 ></textarea>
-                <select 
+                <select
                   v-else-if="element.type === 'select'"
                   class="preview-select"
                   disabled
                 >
-                  <option value="">Select an option</option>
+                  <option value="">Selecione uma opção</option>
                   <option 
                     v-for="(option, idx) in element.options" 
                     :key="idx"
@@ -110,19 +110,19 @@
             </div>
             
             <div class="field-actions">
-              <button 
-                class="field-action-btn duplicate-btn" 
+              <button
+                class="field-action-btn duplicate-btn"
                 @click.stop="duplicateField(index)"
-                title="Duplicate"
+                title="Duplicar"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
               </button>
-              <button 
-                class="field-action-btn delete-btn" 
+              <button
+                class="field-action-btn delete-btn"
                 @click.stop="deleteField(index)"
-                title="Delete"
+                title="Excluir"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -137,7 +137,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <p>Drag fields from the sidebar to start building your form</p>
+            <p>Arraste campos da barra lateral para começar a construir seu formulário</p>
           </div>
         </template>
       </draggable>

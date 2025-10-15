@@ -1,8 +1,8 @@
 <template>
   <div class="properties-panel">
     <div class="panel-header">
-      <h3 class="panel-title">Field Properties</h3>
-      <button 
+      <h3 class="panel-title">Propriedades do Campo</h3>
+      <button
         v-if="selectedField"
         class="close-btn"
         @click="$emit('close')"
@@ -12,66 +12,66 @@
         </svg>
       </button>
     </div>
-    
+
     <div v-if="!selectedField" class="no-selection">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <p>Select a field to edit its properties</p>
+      <p>Selecione um campo para editar suas propriedades</p>
     </div>
     
     <div v-else class="panel-content">
       <div class="property-group">
-        <label class="property-label">Label</label>
-        <input 
+        <label class="property-label">Rótulo</label>
+        <input
           v-model="localField.label"
           type="text"
           class="property-input"
-          placeholder="Field label"
+          placeholder="Rótulo do campo"
           @input="updateField"
         />
       </div>
-      
+
       <div class="property-group">
-        <label class="property-label">Field ID</label>
-        <input 
+        <label class="property-label">ID do Campo</label>
+        <input
           v-model="localField.fieldId"
           type="text"
           class="property-input"
-          placeholder="field_id"
+          placeholder="id_do_campo"
           @input="updateField"
         />
-        <p class="property-hint">Unique identifier for this field</p>
+        <p class="property-hint">Identificador único para este campo</p>
       </div>
-      
+
       <div class="property-group">
         <label class="property-label">Placeholder</label>
-        <input 
+        <input
           v-model="localField.placeholder"
           type="text"
           class="property-input"
-          placeholder="Enter placeholder text"
+          placeholder="Digite o texto de exemplo"
           @input="updateField"
         />
       </div>
-      
+
       <div class="property-group checkbox-group">
         <label class="checkbox-label">
-          <input 
+          <input
             v-model="localField.required"
             type="checkbox"
             @change="updateField"
           />
-          <span>Required field</span>
+          <span>Campo obrigatório</span>
         </label>
       </div>
-      
+
       <div class="property-group">
-        <label class="property-label">Help Text</label>
-        <textarea 
+        <label class="property-label">Texto de Ajuda</label>
+        <textarea
           v-model="localField.helpText"
           class="property-textarea"
-          placeholder="Additional help text"
+          placeholder="Texto de ajuda adicional"
           rows="3"
           @input="updateField"
         ></textarea>
@@ -80,33 +80,33 @@
       <!-- Number specific properties -->
       <template v-if="localField.type === 'number'">
         <div class="property-divider"></div>
-        <h4 class="property-section-title">Number Settings</h4>
-        
+        <h4 class="property-section-title">Configurações de Número</h4>
+
         <div class="property-group">
-          <label class="property-label">Minimum Value</label>
-          <input 
+          <label class="property-label">Valor Mínimo</label>
+          <input
             v-model.number="localField.min"
             type="number"
             class="property-input"
-            placeholder="Min"
+            placeholder="Mínimo"
             @input="updateField"
           />
         </div>
 
 <div class="property-group">
-<label class="property-label">Maximum Value</label>
-<input 
+<label class="property-label">Valor Máximo</label>
+<input
 v-model.number="localField.max"
 type="number"
 class="property-input"
-placeholder="Max"
+placeholder="Máximo"
 @input="updateField"
 />
 </div>
 
 <div class="property-group">
-<label class="property-label">Step</label>
-<input 
+<label class="property-label">Incremento</label>
+<input
 v-model.number="localField.step"
 type="number"
 class="property-input"
@@ -119,15 +119,15 @@ placeholder="1"
 <!-- Text/Textarea specific properties -->
 <template v-if="['text', 'textarea'].includes(localField.type)">
 <div class="property-divider"></div>
-<h4 class="property-section-title">Text Settings</h4>
+<h4 class="property-section-title">Configurações de Texto</h4>
 
 <div class="property-group">
-<label class="property-label">Max Length</label>
-<input 
+<label class="property-label">Comprimento Máximo</label>
+<input
 v-model.number="localField.maxLength"
 type="number"
 class="property-input"
-placeholder="No limit"
+placeholder="Sem limite"
 @input="updateField"
 />
 </div>
@@ -136,30 +136,30 @@ placeholder="No limit"
 <!-- Select/Radio specific properties -->
 <template v-if="['select', 'radio'].includes(localField.type)">
 <div class="property-divider"></div>
-<h4 class="property-section-title">Options</h4>
+<h4 class="property-section-title">Opções</h4>
 
-<div 
+<div
 v-for="(option, index) in localField.options"
 :key="index"
 class="option-item"
 >
 <div class="option-inputs">
-<input 
+<input
 v-model="option.label"
 type="text"
 class="option-input"
-placeholder="Label"
+placeholder="Rótulo"
 @input="updateField"
 />
-<input 
+<input
 v-model="option.value"
 type="text"
 class="option-input"
-placeholder="Value"
+placeholder="Valor"
 @input="updateField"
 />
 </div>
-<button 
+<button
 class="option-delete-btn"
 @click="removeOption(index)"
 :disabled="localField.options.length <= 1"
@@ -174,7 +174,7 @@ class="option-delete-btn"
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
 </svg>
-Add Option
+Adicionar Opção
 </button>
 </template>
 </div>
@@ -214,7 +214,7 @@ const addOption = () => {
 if (localField.value && localField.value.options) {
 const optionNumber = localField.value.options.length + 1;
 localField.value.options.push({
-label: `Option ${optionNumber}`,
+label: `Opção ${optionNumber}`,
 value: `option${optionNumber}`
 });
 updateField();

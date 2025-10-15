@@ -2,7 +2,7 @@
 <div v-if="isOpen" class="modal-overlay" @click.self="$emit('close')">
 <div class="modal-container">
 <div class="modal-header">
-<h3 class="modal-title">Form Preview</h3>
+<h3 class="modal-title">Visualização do Formulário</h3>
 <button class="modal-close-btn" @click="$emit('close')">
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -43,13 +43,13 @@ class="form-textarea"
 rows="4"
 ></textarea>
 
-<select 
+<select
 v-else-if="field.type === 'select'"
 :required="field.required"
 class="form-select"
 >
-<option value="">Select an option</option>
-<option 
+<option value="">Selecione uma opção</option>
+<option
 v-for="(option, idx) in field.options"
 :key="idx"
 :value="option.value"
@@ -60,12 +60,12 @@ v-for="(option, idx) in field.options"
 
 <div v-else-if="field.type === 'checkbox'" class="form-checkbox-wrapper">
 <label class="form-checkbox-label">
-<input 
+<input
 type="checkbox"
 :required="field.required"
 class="form-checkbox"
 />
-<span>{{ field.placeholder || 'Check this box' }}</span>
+<span>{{ field.placeholder || 'Marque esta caixa' }}</span>
 </label>
 </div>
 
@@ -90,8 +90,8 @@ class="form-radio"
 </div>
 
 <div class="form-actions">
-<button type="submit" class="submit-btn">Submit Form</button>
-<button type="button" class="cancel-btn" @click="$emit('close')">Close Preview</button>
+<button type="submit" class="submit-btn">Enviar Formulário</button>
+<button type="button" class="cancel-btn" @click="$emit('close')">Fechar Visualização</button>
 </div>
 </form>
 </div>

@@ -131,7 +131,7 @@ event: { value: schema }
 const clearAllFields = () => {
 if (isEditing.value) return;
 
-const confirmed = wwLib.getFrontWindow().confirm('Are you sure you want to clear all fields?');
+const confirmed = wwLib.getFrontWindow().confirm('Tem certeza que deseja limpar todos os campos?');
 if (confirmed) {
 fields.value = [];
 selectedFieldId.value = null;

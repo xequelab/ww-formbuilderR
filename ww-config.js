@@ -1,14 +1,16 @@
 export default {
 editor: {
 label: {
-en: 'Form Builder'
+en: 'Construtor de Formulários',
+pt: 'Construtor de Formulários'
 },
 icon: 'collection'
 },
 properties: {
 initialSchema: {
 label: {
-en: 'Initial Schema'
+en: 'Esquema Inicial',
+pt: 'Esquema Inicial'
 },
 type: 'Object',
 section: 'settings',
@@ -18,10 +20,10 @@ hidden: true,
 /* wwEditor:start */
 bindingValidation: {
 type: 'object',
-tooltip: 'Bind to an object with a "fields" array to initialize the form builder with existing fields'
+tooltip: 'Vincule a um objeto com um array "fields" para inicializar o construtor de formulários com campos existentes'
 },
 propertyHelp: {
-tooltip: 'Optional initial form schema to load when the component mounts. Should contain a "fields" array with field definitions.'
+tooltip: 'Esquema de formulário inicial opcional para carregar quando o componente for montado. Deve conter um array "fields" com definições de campos.'
 }
 /* wwEditor:end */
 }
@@ -29,23 +31,35 @@ tooltip: 'Optional initial form schema to load when the component mounts. Should
 triggerEvents: [
 {
 name: 'change',
-label: { en: 'On form change' },
+label: {
+en: 'Ao alterar formulário',
+pt: 'Ao alterar formulário'
+},
 event: { value: null },
 default: true
 },
 {
 name: 'clear',
-label: { en: 'On clear all' },
+label: {
+en: 'Ao limpar tudo',
+pt: 'Ao limpar tudo'
+},
 event: { value: null }
 }
 ],
 actions: [
 {
-label: { en: 'Export Schema' },
+label: {
+en: 'Exportar Esquema',
+pt: 'Exportar Esquema'
+},
 action: 'exportSchema'
 },
 {
-label: { en: 'Import Schema' },
+label: {
+en: 'Importar Esquema',
+pt: 'Importar Esquema'
+},
 action: 'importSchema',
 args: [
 {
@@ -55,7 +69,10 @@ type: 'object'
 ]
 },
 {
-label: { en: 'Clear All Fields' },
+label: {
+en: 'Limpar Todos os Campos',
+pt: 'Limpar Todos os Campos'
+},
 action: 'clearAllFields'
 }
 ]
