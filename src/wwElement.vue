@@ -115,7 +115,23 @@ helpText: field.helpText,
 ...(field.min !== null && field.min !== undefined && { min: field.min }),
 ...(field.max !== null && field.max !== undefined && { max: field.max }),
 ...(field.step !== null && field.step !== undefined && { step: field.step }),
-...(field.maxLength !== null && field.maxLength !== undefined && { maxLength: field.maxLength })
+...(field.maxLength !== null && field.maxLength !== undefined && { maxLength: field.maxLength }),
+...(field.country && { country: field.country }),
+...(field.mask && { mask: field.mask }),
+...(field.defaultValue !== null && field.defaultValue !== undefined && { defaultValue: field.defaultValue }),
+...(field.showValue !== null && field.showValue !== undefined && { showValue: field.showValue }),
+...(field.unit && { unit: field.unit }),
+...(field.labelOn && { labelOn: field.labelOn }),
+...(field.labelOff && { labelOff: field.labelOff }),
+...(field.title && { title: field.title }),
+...(field.description && { description: field.description }),
+...(field.autocomplete !== null && field.autocomplete !== undefined && { autocomplete: field.autocomplete }),
+...(field.fields && { fields: field.fields }),
+...(field.url && { url: field.url }),
+...(field.linkText && { linkText: field.linkText }),
+...(field.openNewTab !== null && field.openNewTab !== undefined && { openNewTab: field.openNewTab }),
+...(field.consentText && { consentText: field.consentText }),
+...(field.linkUrl && { linkUrl: field.linkUrl })
 }))
 };
 setFormSchema(schema);

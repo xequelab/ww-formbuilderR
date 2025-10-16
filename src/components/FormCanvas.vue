@@ -64,9 +64,9 @@
               
               <div class="field-preview">
                 <input
-                  v-if="['text', 'email', 'number', 'date'].includes(element.type)"
-                  :type="element.type"
-                  :placeholder="element.placeholder || `Digite ${element.label.toLowerCase()}`"
+                  v-if="['text', 'email', 'number', 'date', 'phone'].includes(element.type)"
+                  :type="element.type === 'phone' ? 'tel' : element.type"
+                  :placeholder="element.placeholder || (element.type === 'phone' ? element.mask : `Digite ${element.label.toLowerCase()}`)"
                   class="preview-input"
                   disabled
                 />
@@ -101,14 +101,62 @@
                   </div>
                 </div>
                 <div v-else-if="element.type === 'radio'" class="preview-radio-group">
-                  <div 
-                    v-for="(option, idx) in element.options" 
+                  <div
+                    v-for="(option, idx) in element.options"
                     :key="idx"
                     class="preview-radio"
                   >
                     <input type="radio" :name="`radio_${element.id}`" disabled />
                     <span>{{ option.label }}</span>
                   </div>
+                </div>
+                <div v-else-if="element.type === 'slider'" class="preview-slider">
+                  <input
+                    type="range"
+                    :min="element.min"
+                    :max="element.max"
+                    :step="element.step"
+                    :value="element.defaultValue"
+                    class="preview-slider-input"
+                    disabled
+                  />
+                  <div v-if="element.showValue" class="preview-slider-value">
+                    {{ element.defaultValue }}{{ element.unit }}
+                  </div>
+                </div>
+                <div v-else-if="element.type === 'toggle'" class="preview-toggle">
+                  <label class="toggle-switch">
+                    <input type="checkbox" :checked="element.defaultValue" disabled />
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="toggle-label">{{ element.defaultValue ? element.labelOn : element.labelOff }}</span>
+                </div>
+                <div v-else-if="element.type === 'divider'" class="preview-divider">
+                  <h3 class="divider-title">{{ element.title }}</h3>
+                  <p v-if="element.description" class="divider-description">{{ element.description }}</p>
+                  <hr class="divider-line" />
+                </div>
+                <div v-else-if="element.type === 'address'" class="preview-address">
+                  <div class="address-grid">
+                    <input v-if="element.fields.zipCode" type="text" placeholder="CEP" class="preview-input" disabled />
+                    <input v-if="element.fields.street" type="text" placeholder="Rua" class="preview-input" disabled />
+                    <input v-if="element.fields.number" type="text" placeholder="Número" class="preview-input small" disabled />
+                    <input v-if="element.fields.complement" type="text" placeholder="Complemento" class="preview-input" disabled />
+                    <input v-if="element.fields.neighborhood" type="text" placeholder="Bairro" class="preview-input" disabled />
+                    <input v-if="element.fields.city" type="text" placeholder="Cidade" class="preview-input" disabled />
+                    <input v-if="element.fields.state" type="text" placeholder="Estado" class="preview-input small" disabled />
+                  </div>
+                </div>
+                <div v-else-if="element.type === 'link'" class="preview-link">
+                  <a :href="element.url || '#'" class="link-element" target="_blank">
+                    {{ element.linkText }}
+                  </a>
+                </div>
+                <div v-else-if="element.type === 'consent'" class="preview-consent">
+                  <label class="consent-label">
+                    <input type="checkbox" :required="element.required" disabled />
+                    <span>{{ element.consentText }} <a v-if="element.linkUrl" :href="element.linkUrl" target="_blank">{{ element.linkText }}</a></span>
+                  </label>
                 </div>
               </div>
               
@@ -515,5 +563,164 @@ export default {
 .drag {
   opacity: 0.8;
   transform: rotate(2deg);
+}
+
+/* New field types styles */
+.preview-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-slider-input {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #d1d5db;
+  outline: none;
+  cursor: pointer;
+}
+
+.preview-slider-value {
+  font-size: 14px;
+  color: #374151;
+  text-align: center;
+  font-weight: 500;
+}
+
+.preview-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #3b82f6;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #374151;
+}
+
+.preview-divider {
+  margin: 16px 0;
+}
+
+.divider-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.divider-description {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.divider-line {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 0;
+}
+
+.preview-address {
+  width: 100%;
+}
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.address-grid .small {
+  grid-column: span 1;
+  max-width: 120px;
+}
+
+.preview-link {
+  padding: 8px 0;
+}
+
+.link-element {
+  color: #3b82f6;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.link-element:hover {
+  color: #2563eb;
+}
+
+.preview-consent {
+  padding: 8px 0;
+}
+
+.consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.consent-label input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.consent-label a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.consent-label a:hover {
+  color: #2563eb;
 }
 </style>

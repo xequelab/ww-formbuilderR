@@ -159,6 +159,308 @@ class="option-delete-btn"
 Adicionar Opção
 </button>
 </template>
+
+<!-- Phone specific properties -->
+<template v-if="localField.type === 'phone'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações de Telefone</h4>
+
+<div class="property-group">
+<label class="property-label">País</label>
+<select v-model="localField.country" class="property-input" @change="updateField">
+<option value="BR">Brasil</option>
+<option value="US">Estados Unidos</option>
+<option value="PT">Portugal</option>
+</select>
+</div>
+
+<div class="property-group">
+<label class="property-label">Máscara</label>
+<input
+v-model="localField.mask"
+type="text"
+class="property-input"
+placeholder="(99) 99999-9999"
+@input="updateField"
+/>
+<p class="property-hint">Use 9 para dígitos. Ex: (99) 99999-9999</p>
+</div>
+</template>
+
+<!-- Slider specific properties -->
+<template v-if="localField.type === 'slider'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações do Slider</h4>
+
+<div class="property-group">
+<label class="property-label">Valor Mínimo</label>
+<input
+v-model.number="localField.min"
+type="number"
+class="property-input"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Valor Máximo</label>
+<input
+v-model.number="localField.max"
+type="number"
+class="property-input"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Incremento</label>
+<input
+v-model.number="localField.step"
+type="number"
+class="property-input"
+placeholder="1"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Valor Padrão</label>
+<input
+v-model.number="localField.defaultValue"
+type="number"
+class="property-input"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Unidade</label>
+<input
+v-model="localField.unit"
+type="text"
+class="property-input"
+placeholder="kg, km, %, etc"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group checkbox-group">
+<label class="checkbox-label">
+<input
+v-model="localField.showValue"
+type="checkbox"
+@change="updateField"
+/>
+<span>Mostrar valor atual</span>
+</label>
+</div>
+</template>
+
+<!-- Toggle specific properties -->
+<template v-if="localField.type === 'toggle'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações do Toggle</h4>
+
+<div class="property-group">
+<label class="property-label">Texto "Ligado"</label>
+<input
+v-model="localField.labelOn"
+type="text"
+class="property-input"
+placeholder="Sim"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Texto "Desligado"</label>
+<input
+v-model="localField.labelOff"
+type="text"
+class="property-input"
+placeholder="Não"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group checkbox-group">
+<label class="checkbox-label">
+<input
+v-model="localField.defaultValue"
+type="checkbox"
+@change="updateField"
+/>
+<span>Ligado por padrão</span>
+</label>
+</div>
+</template>
+
+<!-- Divider specific properties -->
+<template v-if="localField.type === 'divider'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações do Separador</h4>
+
+<div class="property-group">
+<label class="property-label">Título</label>
+<input
+v-model="localField.title"
+type="text"
+class="property-input"
+placeholder="Título da seção"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Descrição</label>
+<textarea
+v-model="localField.description"
+class="property-textarea"
+placeholder="Descrição opcional"
+rows="2"
+@input="updateField"
+></textarea>
+</div>
+</template>
+
+<!-- Address specific properties -->
+<template v-if="localField.type === 'address'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações de Endereço</h4>
+
+<div class="property-group">
+<label class="property-label">País</label>
+<select v-model="localField.country" class="property-input" @change="updateField">
+<option value="BR">Brasil</option>
+<option value="US">Estados Unidos</option>
+<option value="PT">Portugal</option>
+</select>
+</div>
+
+<div class="property-group checkbox-group">
+<label class="checkbox-label">
+<input
+v-model="localField.autocomplete"
+type="checkbox"
+@change="updateField"
+/>
+<span>Habilitar autocomplete</span>
+</label>
+</div>
+
+<div class="property-divider"></div>
+<h4 class="property-section-title">Campos a Exibir</h4>
+
+<div class="property-group checkbox-group">
+<label class="checkbox-label">
+<input v-model="localField.fields.street" type="checkbox" @change="updateField" />
+<span>Rua/Logradouro</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.number" type="checkbox" @change="updateField" />
+<span>Número</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.complement" type="checkbox" @change="updateField" />
+<span>Complemento</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.neighborhood" type="checkbox" @change="updateField" />
+<span>Bairro</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.city" type="checkbox" @change="updateField" />
+<span>Cidade</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.state" type="checkbox" @change="updateField" />
+<span>Estado</span>
+</label>
+<label class="checkbox-label">
+<input v-model="localField.fields.zipCode" type="checkbox" @change="updateField" />
+<span>CEP</span>
+</label>
+</div>
+</template>
+
+<!-- Link specific properties -->
+<template v-if="localField.type === 'link'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações do Link</h4>
+
+<div class="property-group">
+<label class="property-label">URL</label>
+<input
+v-model="localField.url"
+type="url"
+class="property-input"
+placeholder="https://exemplo.com"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Texto do Link</label>
+<input
+v-model="localField.linkText"
+type="text"
+class="property-input"
+placeholder="Clique aqui"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group checkbox-group">
+<label class="checkbox-label">
+<input
+v-model="localField.openNewTab"
+type="checkbox"
+@change="updateField"
+/>
+<span>Abrir em nova aba</span>
+</label>
+</div>
+</template>
+
+<!-- Consent specific properties -->
+<template v-if="localField.type === 'consent'">
+<div class="property-divider"></div>
+<h4 class="property-section-title">Configurações do Termo</h4>
+
+<div class="property-group">
+<label class="property-label">Texto do Consentimento</label>
+<textarea
+v-model="localField.consentText"
+class="property-textarea"
+placeholder="Li e aceito os termos e condições"
+rows="3"
+@input="updateField"
+></textarea>
+</div>
+
+<div class="property-group">
+<label class="property-label">URL dos Termos</label>
+<input
+v-model="localField.linkUrl"
+type="url"
+class="property-input"
+placeholder="https://exemplo.com/termos"
+@input="updateField"
+/>
+</div>
+
+<div class="property-group">
+<label class="property-label">Texto do Link</label>
+<input
+v-model="localField.linkText"
+type="text"
+class="property-input"
+placeholder="termos e condições"
+@input="updateField"
+/>
+<p class="property-hint">Esse texto aparecerá como link clicável dentro do consentimento</p>
+</div>
+</template>
 </div>
 </div>
 </template>
