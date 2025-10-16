@@ -23,14 +23,24 @@ class="form-field"
 </label>
 
 <input
-v-if="['text', 'email', 'number', 'date', 'phone'].includes(field.type)"
-:type="field.type === 'phone' ? 'tel' : field.type"
-:placeholder="field.placeholder || (field.type === 'phone' ? field.mask : '')"
+v-if="['text', 'email', 'number', 'date'].includes(field.type)"
+:type="field.type"
+:placeholder="field.placeholder"
 :required="field.required"
 :min="field.min"
 :max="field.max"
 :step="field.step"
 :maxlength="field.maxLength"
+class="form-input"
+/>
+
+<input
+v-else-if="field.type === 'phone'"
+type="tel"
+:placeholder="field.placeholder || field.mask"
+:required="field.required"
+v-model="phoneValues[field.id]"
+@input="applyPhoneMask(field.id, field.mask, $event)"
 class="form-input"
 />
 
@@ -97,20 +107,21 @@ type="range"
 :min="field.min"
 :max="field.max"
 :step="field.step"
-:value="field.defaultValue"
+v-model="sliderValues[field.id]"
 class="form-slider-input"
+@input="updateSliderValue(field.id, $event.target.value)"
 />
 <div v-if="field.showValue" class="form-slider-value">
-{{ field.defaultValue }}{{ field.unit }}
+{{ sliderValues[field.id] || field.defaultValue }}{{ field.unit }}
 </div>
 </div>
 
 <div v-else-if="field.type === 'toggle'" class="form-toggle">
 <label class="toggle-switch">
-<input type="checkbox" :checked="field.defaultValue" />
+<input type="checkbox" v-model="toggleValues[field.id]" />
 <span class="toggle-slider"></span>
 </label>
-<span class="toggle-label">{{ field.defaultValue ? field.labelOn : field.labelOff }}</span>
+<span class="toggle-label">{{ toggleValues[field.id] ? field.labelOn : field.labelOff }}</span>
 </div>
 
 <div v-else-if="field.type === 'divider'" class="form-divider">
@@ -158,6 +169,8 @@ class="form-slider-input"
 </template>
 
 <script>
+import { ref, watch } from 'vue';
+
 export default {
 name: 'PreviewModal',
 props: {
@@ -170,7 +183,58 @@ type: Array,
 required: true
 }
 },
-emits: ['close']
+emits: ['close'],
+setup(props) {
+const sliderValues = ref({});
+const toggleValues = ref({});
+const phoneValues = ref({});
+
+// Inicializa valores quando os campos mudam
+watch(() => props.fields, (newFields) => {
+newFields.forEach(field => {
+if (field.type === 'slider' && !sliderValues.value[field.id]) {
+sliderValues.value[field.id] = field.defaultValue;
+}
+if (field.type === 'toggle' && toggleValues.value[field.id] === undefined) {
+toggleValues.value[field.id] = field.defaultValue;
+}
+if (field.type === 'phone' && !phoneValues.value[field.id]) {
+phoneValues.value[field.id] = '';
+}
+});
+}, { immediate: true, deep: true });
+
+const updateSliderValue = (fieldId, value) => {
+sliderValues.value[fieldId] = value;
+};
+
+const applyPhoneMask = (fieldId, mask, event) => {
+if (!mask) return;
+
+let value = event.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+let maskedValue = '';
+let valueIndex = 0;
+
+for (let i = 0; i < mask.length && valueIndex < value.length; i++) {
+if (mask[i] === '9') {
+maskedValue += value[valueIndex];
+valueIndex++;
+} else {
+maskedValue += mask[i];
+}
+}
+
+phoneValues.value[fieldId] = maskedValue;
+};
+
+return {
+sliderValues,
+toggleValues,
+phoneValues,
+updateSliderValue,
+applyPhoneMask
+};
+}
 };
 </script>
 

@@ -64,9 +64,16 @@
               
               <div class="field-preview">
                 <input
-                  v-if="['text', 'email', 'number', 'date', 'phone'].includes(element.type)"
-                  :type="element.type === 'phone' ? 'tel' : element.type"
-                  :placeholder="element.placeholder || (element.type === 'phone' ? element.mask : `Digite ${element.label.toLowerCase()}`)"
+                  v-if="['text', 'email', 'number', 'date'].includes(element.type)"
+                  :type="element.type"
+                  :placeholder="element.placeholder || `Digite ${element.label.toLowerCase()}`"
+                  class="preview-input"
+                  disabled
+                />
+                <input
+                  v-else-if="element.type === 'phone'"
+                  type="tel"
+                  :placeholder="element.placeholder || element.mask"
                   class="preview-input"
                   disabled
                 />
