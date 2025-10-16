@@ -22,10 +22,10 @@ class="form-field"
 <span v-if="field.required" class="required-star">*</span>
 </label>
 
-<input 
-v-if="['text', 'email', 'number', 'date'].includes(field.type)"
-:type="field.type"
-:placeholder="field.placeholder"
+<input
+v-if="['text', 'email', 'number', 'date', 'phone'].includes(field.type)"
+:type="field.type === 'phone' ? 'tel' : field.type"
+:placeholder="field.placeholder || (field.type === 'phone' ? field.mask : '')"
 :required="field.required"
 :min="field.min"
 :max="field.max"
@@ -75,12 +75,12 @@ class="form-checkbox"
 </div>
 
 <div v-else-if="field.type === 'radio'" class="form-radio-group">
-<label 
+<label
 v-for="(option, idx) in field.options"
 :key="idx"
 class="form-radio-label"
 >
-<input 
+<input
 type="radio"
 :name="`preview_${field.id}`"
 :value="option.value"
@@ -91,7 +91,60 @@ class="form-radio"
 </label>
 </div>
 
-<p v-if="field.helpText" class="form-help-text">{{ field.helpText }}</p>
+<div v-else-if="field.type === 'slider'" class="form-slider">
+<input
+type="range"
+:min="field.min"
+:max="field.max"
+:step="field.step"
+:value="field.defaultValue"
+class="form-slider-input"
+/>
+<div v-if="field.showValue" class="form-slider-value">
+{{ field.defaultValue }}{{ field.unit }}
+</div>
+</div>
+
+<div v-else-if="field.type === 'toggle'" class="form-toggle">
+<label class="toggle-switch">
+<input type="checkbox" :checked="field.defaultValue" />
+<span class="toggle-slider"></span>
+</label>
+<span class="toggle-label">{{ field.defaultValue ? field.labelOn : field.labelOff }}</span>
+</div>
+
+<div v-else-if="field.type === 'divider'" class="form-divider">
+<h3 class="divider-title">{{ field.title }}</h3>
+<p v-if="field.description" class="divider-description">{{ field.description }}</p>
+<hr class="divider-line" />
+</div>
+
+<div v-else-if="field.type === 'address'" class="form-address">
+<div class="address-grid">
+<input v-if="field.fields.zipCode" type="text" placeholder="CEP" class="form-input" />
+<input v-if="field.fields.street" type="text" placeholder="Rua" class="form-input" />
+<input v-if="field.fields.number" type="text" placeholder="Número" class="form-input small" />
+<input v-if="field.fields.complement" type="text" placeholder="Complemento" class="form-input" />
+<input v-if="field.fields.neighborhood" type="text" placeholder="Bairro" class="form-input" />
+<input v-if="field.fields.city" type="text" placeholder="Cidade" class="form-input" />
+<input v-if="field.fields.state" type="text" placeholder="Estado" class="form-input small" />
+</div>
+</div>
+
+<div v-else-if="field.type === 'link'" class="form-link">
+<a :href="field.url || '#'" class="link-element" :target="field.openNewTab ? '_blank' : '_self'">
+{{ field.linkText }}
+</a>
+</div>
+
+<div v-else-if="field.type === 'consent'" class="form-consent">
+<label class="consent-label">
+<input type="checkbox" :required="field.required" class="form-checkbox" />
+<span>{{ field.consentText }} <a v-if="field.linkUrl" :href="field.linkUrl" target="_blank">{{ field.linkText }}</a></span>
+</label>
+</div>
+
+<p v-if="field.helpText && field.type !== 'divider'" class="form-help-text">{{ field.helpText }}</p>
 </div>
 
 <div class="form-actions">
@@ -313,5 +366,167 @@ color: #374151;
 
 .cancel-btn:hover {
 background: #e5e7eb;
+}
+
+/* New field types styles */
+.form-slider {
+display: flex;
+flex-direction: column;
+gap: 8px;
+padding: 8px 0;
+}
+
+.form-slider-input {
+width: 100%;
+height: 6px;
+border-radius: 3px;
+background: #d1d5db;
+outline: none;
+cursor: pointer;
+}
+
+.form-slider-value {
+font-size: 14px;
+color: #374151;
+text-align: center;
+font-weight: 500;
+}
+
+.form-toggle {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 8px 0;
+}
+
+.toggle-switch {
+position: relative;
+display: inline-block;
+width: 48px;
+height: 24px;
+}
+
+.toggle-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+.toggle-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #d1d5db;
+transition: 0.4s;
+border-radius: 24px;
+}
+
+.toggle-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: 0.4s;
+border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+background-color: #3b82f6;
+}
+
+input:checked + .toggle-slider:before {
+transform: translateX(24px);
+}
+
+.toggle-label {
+font-size: 14px;
+color: #374151;
+}
+
+.form-divider {
+margin: 16px 0;
+padding: 0;
+}
+
+.divider-title {
+font-size: 16px;
+font-weight: 600;
+color: #111827;
+margin: 0 0 4px 0;
+}
+
+.divider-description {
+font-size: 13px;
+color: #6b7280;
+margin: 0 0 8px 0;
+}
+
+.divider-line {
+border: none;
+border-top: 2px solid #e5e7eb;
+margin: 8px 0 0 0;
+}
+
+.form-address {
+width: 100%;
+}
+
+.address-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+gap: 12px;
+}
+
+.address-grid .small {
+grid-column: span 1;
+max-width: 120px;
+}
+
+.form-link {
+padding: 8px 0;
+}
+
+.link-element {
+color: #3b82f6;
+text-decoration: underline;
+font-size: 14px;
+cursor: pointer;
+}
+
+.link-element:hover {
+color: #2563eb;
+}
+
+.form-consent {
+padding: 8px 0;
+}
+
+.consent-label {
+display: flex;
+align-items: flex-start;
+gap: 8px;
+font-size: 14px;
+color: #374151;
+cursor: pointer;
+}
+
+.consent-label input[type="checkbox"] {
+margin-top: 2px;
+flex-shrink: 0;
+}
+
+.consent-label a {
+color: #3b82f6;
+text-decoration: underline;
+}
+
+.consent-label a:hover {
+color: #2563eb;
 }
 </style>
