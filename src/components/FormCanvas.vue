@@ -236,7 +236,7 @@ export default {
       default: null
     }
   },
-  emits: ['update:fields', 'select-field', 'preview', 'clear'],
+  emits: ['update:fields', 'select-field', 'save', 'preview', 'clear'],
   setup(props, { emit }) {
     const localFields = computed({
       get: () => props.fields,
