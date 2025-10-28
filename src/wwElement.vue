@@ -8,6 +8,7 @@
 :selected-field-id="selectedFieldId"
 @update:fields="updateFields"
 @select-field="selectField"
+@save="handleSave"
 @preview="showPreview = true"
 @clear="clearAllFields"
 />
@@ -142,6 +143,19 @@ name: 'change',
 event: { value: schema }
 });
 }
+};
+
+const handleSave = () => {
+if (isEditing.value) return;
+
+const schema = formSchema.value;
+emit('trigger-event', {
+name: 'save',
+event: {
+schema: schema,
+fieldsCount: fields.value.length
+}
+});
 };
 
 const clearAllFields = () => {

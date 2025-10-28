@@ -39,6 +39,17 @@ event: { value: null },
 default: true
 },
 {
+name: 'save',
+label: {
+en: 'Ao salvar formulário',
+pt: 'Ao salvar formulário'
+},
+event: {
+schema: null,
+fieldsCount: 0
+}
+},
+{
 name: 'clear',
 label: {
 en: 'Ao limpar tudo',
