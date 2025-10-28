@@ -203,6 +203,7 @@ showPreview,
 updateFields,
 selectField,
 updateSelectedField,
+handleSave,
 clearAllFields,
 exportSchema,
 importSchema
