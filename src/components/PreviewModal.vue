@@ -215,6 +215,11 @@ let value = event.target.value.replace(/\D/g, ''); // Remove tudo que não é d�
 let maskedValue = '';
 let valueIndex = 0;
 
+// Conta quantos dígitos a máscara permite
+const maxDigits = (mask.match(/9/g) || []).length;
+// Limita o valor aos dígitos permitidos pela máscara
+value = value.substring(0, maxDigits);
+
 for (let i = 0; i < mask.length && valueIndex < value.length; i++) {
 if (mask[i] === '9') {
 maskedValue += value[valueIndex];

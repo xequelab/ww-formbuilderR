@@ -6,11 +6,13 @@
 <FormCanvas
 :fields="fields"
 :selected-field-id="selectedFieldId"
+:service-name="content.serviceName"
 @update:fields="updateFields"
 @select-field="selectField"
 @save="handleSave"
 @preview="showPreview = true"
 @clear="clearAllFields"
+@close="handleClose"
 />
 
 <PropertiesPanel
@@ -174,6 +176,15 @@ event: { value: true }
 }
 };
 
+const handleClose = () => {
+if (isEditing.value) return;
+
+emit('trigger-event', {
+name: 'close',
+event: { value: true }
+});
+};
+
 const exportSchema = () => {
 return formSchema.value;
 };
@@ -222,6 +233,7 @@ updateFields,
 selectField,
 updateSelectedField,
 handleSave,
+handleClose,
 clearAllFields,
 exportSchema,
 importSchema

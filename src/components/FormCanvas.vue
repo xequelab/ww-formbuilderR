@@ -1,7 +1,10 @@
 <template>
   <div class="form-canvas">
     <div class="canvas-header">
-      <h3 class="canvas-title">Construtor de Formulários</h3>
+      <div class="canvas-title-section">
+        <h3 class="canvas-title">Construtor de Formulários</h3>
+        <p v-if="serviceName" class="service-name">{{ serviceName }}</p>
+      </div>
       <div class="canvas-actions">
         <button
           class="action-btn save-btn"
@@ -33,6 +36,15 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
           Limpar Tudo
+        </button>
+        <button
+          class="close-popup-btn"
+          @click="$emit('close')"
+          title="Fechar"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
     </div>
@@ -234,9 +246,13 @@ export default {
     selectedFieldId: {
       type: String,
       default: null
+    },
+    serviceName: {
+      type: String,
+      default: ''
     }
   },
-  emits: ['update:fields', 'select-field', 'save', 'preview', 'clear'],
+  emits: ['update:fields', 'select-field', 'save', 'preview', 'clear', 'close'],
   setup(props, { emit }) {
     const localFields = computed({
       get: () => props.fields,
@@ -306,11 +322,24 @@ export default {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.canvas-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .canvas-title {
   font-size: 16px;
   font-weight: 600;
   color: #111827;
   margin: 0;
+}
+
+.service-name {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
 }
 
 .canvas-actions {
@@ -362,6 +391,32 @@ export default {
 .clear-btn:hover:not(:disabled) {
   border-color: #ef4444;
   color: #ef4444;
+}
+
+.close-popup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.close-popup-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.close-popup-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 .canvas-content {

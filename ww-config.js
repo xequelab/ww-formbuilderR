@@ -7,6 +7,25 @@ pt: 'Construtor de Formulários'
 icon: 'collection'
 },
 properties: {
+serviceName: {
+label: {
+en: 'Nome do Serviço',
+pt: 'Nome do Serviço'
+},
+type: 'Text',
+section: 'settings',
+bindable: true,
+defaultValue: '',
+/* wwEditor:start */
+bindingValidation: {
+type: 'string',
+tooltip: 'Nome do serviço ao qual este formulário pertence'
+},
+propertyHelp: {
+tooltip: 'Identificação do serviço ao qual este formulário está associado. Exibido no cabeçalho do construtor.'
+}
+/* wwEditor:end */
+},
 initialSchema: {
 label: {
 en: 'Esquema Inicial',
@@ -53,6 +72,14 @@ name: 'clear',
 label: {
 en: 'Ao limpar tudo',
 pt: 'Ao limpar tudo'
+},
+event: { value: null }
+},
+{
+name: 'close',
+label: {
+en: 'Ao fechar',
+pt: 'Ao fechar'
 },
 event: { value: null }
 }
