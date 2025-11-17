@@ -188,9 +188,27 @@ return false;
 };
 
 watch(() => props.content?.initialSchema, (newSchema) => {
-if (newSchema && Array.isArray(newSchema.fields) && fields.value.length === 0) {
-fields.value = JSON.parse(JSON.stringify(newSchema.fields));
+if (newSchema && fields.value.length === 0) {
+let parsedSchema = null;
+
+// Se o schema vem como string JSON (formato do backend)
+if (newSchema.schema && typeof newSchema.schema === 'string') {
+try {
+parsedSchema = JSON.parse(newSchema.schema);
+} catch (e) {
+console.error('Erro ao fazer parse do schema:', e);
+return;
+}
+}
+// Se já vem como objeto com fields
+else if (newSchema.fields) {
+parsedSchema = newSchema;
+}
+
+if (parsedSchema && Array.isArray(parsedSchema.fields)) {
+fields.value = JSON.parse(JSON.stringify(parsedSchema.fields));
 updateFormSchema();
+}
 }
 }, { immediate: true, deep: true });
 

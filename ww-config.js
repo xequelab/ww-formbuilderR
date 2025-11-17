@@ -16,14 +16,13 @@ type: 'Object',
 section: 'settings',
 bindable: true,
 defaultValue: null,
-hidden: true,
 /* wwEditor:start */
 bindingValidation: {
 type: 'object',
-tooltip: 'Vincule a um objeto com um array "fields" para inicializar o construtor de formulários com campos existentes'
+tooltip: 'Vincule a um objeto que contenha a propriedade "schema" (string JSON) ou diretamente um objeto com "fields"'
 },
 propertyHelp: {
-tooltip: 'Esquema de formulário inicial opcional para carregar quando o componente for montado. Deve conter um array "fields" com definições de campos.'
+tooltip: 'Esquema inicial para carregar o formulário. Aceita objeto com propriedade "schema" (string JSON) ou objeto direto com array "fields".'
 }
 /* wwEditor:end */
 }
