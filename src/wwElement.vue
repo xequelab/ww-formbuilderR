@@ -200,7 +200,7 @@ return true;
 return false;
 };
 
-// Campos padrão do sistema
+// Campos obrigatórios do sistema (sempre bloqueados)
 const defaultFields = [
 {
 id: "3d0bd1a7-f76b-4322-97e9-6ff6ec22cfeb",
@@ -234,17 +234,6 @@ helpText: "",
 required: true,
 placeholder: "",
 locked: true
-},
-{
-id: "32a11d1a-52a9-42c7-8fee-a1e80a724d95",
-type: "textarea",
-label: "Observações (opcional)",
-fieldId: "field_1761658464249",
-helpText: "",
-required: false,
-maxLength: 500,
-placeholder: "Quer adicionar algo?",
-locked: false
 }
 ];
 
@@ -252,18 +241,16 @@ locked: false
 fields.value = JSON.parse(JSON.stringify(defaultFields));
 
 watch(() => props.content?.initialSchema, (newSchema) => {
-console.log('📋 initialSchema recebido:', newSchema);
+if (!newSchema) return;
 
-if (newSchema) {
 let parsedSchema = null;
 
 // Se o schema vem como string JSON (formato do backend)
 if (newSchema.schema && typeof newSchema.schema === 'string') {
 try {
 parsedSchema = JSON.parse(newSchema.schema);
-console.log('✅ Schema parsed de string:', parsedSchema);
 } catch (e) {
-console.error('❌ Erro ao fazer parse do schema:', e);
+console.error('Erro ao fazer parse do schema:', e);
 return;
 }
 }
@@ -273,28 +260,34 @@ else if (newSchema.fields) {
 if (typeof newSchema.fields === 'object' && !Array.isArray(newSchema.fields)) {
 const fieldsArray = Object.values(newSchema.fields);
 parsedSchema = { fields: fieldsArray };
-console.log('✅ Schema convertido de objeto para array:', parsedSchema);
 }
 // Se fields já é um array
 else if (Array.isArray(newSchema.fields)) {
 parsedSchema = newSchema;
-console.log('✅ Schema já é array:', parsedSchema);
 }
 }
 // Se vem diretamente como array
 else if (Array.isArray(newSchema)) {
 parsedSchema = { fields: newSchema };
-console.log('✅ Schema é array direto:', parsedSchema);
 }
 
-if (parsedSchema && Array.isArray(parsedSchema.fields)) {
-// Mantém os campos padrão bloqueados e adiciona os campos do schema inicial
-const defaultFieldIds = defaultFields.map(f => f.id);
-const additionalFields = parsedSchema.fields.filter(f => !defaultFieldIds.includes(f.id));
-fields.value = [...JSON.parse(JSON.stringify(defaultFields)), ...additionalFields];
-console.log('✅ Fields atualizados:', fields.value);
+if (parsedSchema && Array.isArray(parsedSchema.fields) && parsedSchema.fields.length > 0) {
+// Separa campos bloqueados (obrigatórios) dos editáveis
+const lockedFieldIds = defaultFields.filter(f => f.locked).map(f => f.id);
+const lockedFromSchema = parsedSchema.fields.filter(f => lockedFieldIds.includes(f.id));
+const additionalFields = parsedSchema.fields.filter(f => !lockedFieldIds.includes(f.id));
+
+// Mescla: campos bloqueados padrão + campos adicionais do schema
+const mergedLockedFields = defaultFields
+.filter(f => f.locked)
+.map(defaultField => {
+// Se o campo bloqueado veio no schema, usa a versão do schema (mas mantém locked: true)
+const fromSchema = lockedFromSchema.find(f => f.id === defaultField.id);
+return fromSchema ? { ...fromSchema, locked: true } : defaultField;
+});
+
+fields.value = [...mergedLockedFields, ...additionalFields];
 updateFormSchema();
-}
 }
 }, { immediate: true, deep: true });
 
