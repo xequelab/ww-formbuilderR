@@ -237,14 +237,11 @@ locked: true
 }
 ];
 
-// Inicializa com campos padrão se não houver campos
-if (fields.value.length === 0) {
+// Inicializa com campos padrão
 fields.value = JSON.parse(JSON.stringify(defaultFields));
-updateFormSchema();
-}
 
 watch(() => props.content?.initialSchema, (newSchema) => {
-if (newSchema && fields.value.length === 0) {
+if (newSchema) {
 let parsedSchema = null;
 
 // Se o schema vem como string JSON (formato do backend)
@@ -262,7 +259,10 @@ parsedSchema = newSchema;
 }
 
 if (parsedSchema && Array.isArray(parsedSchema.fields)) {
-fields.value = JSON.parse(JSON.stringify(parsedSchema.fields));
+// Mantém os campos padrão bloqueados e adiciona os campos do schema inicial
+const defaultFieldIds = defaultFields.map(f => f.id);
+const additionalFields = parsedSchema.fields.filter(f => !defaultFieldIds.includes(f.id));
+fields.value = [...JSON.parse(JSON.stringify(defaultFields)), ...additionalFields];
 updateFormSchema();
 }
 }

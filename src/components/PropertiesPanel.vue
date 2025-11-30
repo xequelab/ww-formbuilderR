@@ -37,7 +37,9 @@
           v-model="localField.label"
           type="text"
           class="property-input"
+          :class="{ 'locked-input': localField.locked }"
           placeholder="Rótulo do campo"
+          :disabled="localField.locked"
           @input="updateField"
         />
       </div>
@@ -48,7 +50,9 @@
           v-model="localField.placeholder"
           type="text"
           class="property-input"
+          :class="{ 'locked-input': localField.locked }"
           placeholder="Digite o texto de exemplo"
+          :disabled="localField.locked"
           @input="updateField"
         />
       </div>
@@ -819,8 +823,8 @@ height: 16px;
   display: flex;
   gap: 12px;
   padding: 12px;
-  background: #fffbeb;
-  border: 1px solid #f59e0b;
+  background: #fef9f3;
+  border: 1px solid #fcd34d;
   border-radius: 8px;
   margin-bottom: 20px;
 }
@@ -849,5 +853,12 @@ height: 16px;
   color: #78350f;
   margin: 0;
   line-height: 1.4;
+}
+
+.property-input.locked-input {
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 </style>

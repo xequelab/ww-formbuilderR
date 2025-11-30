@@ -820,29 +820,30 @@ input:checked + .toggle-slider:before {
   width: 32px;
   height: 32px;
   padding: 0;
-  color: #f59e0b;
+  color: #d97706;
   background: #fef3c7;
   border-radius: 6px;
+  opacity: 0.6;
 }
 
 .field-locked-indicator svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .field-item.locked {
-  border-color: #f59e0b;
-  background: #fffbeb;
+  border-color: #fbbf24;
+  background: #fefce8;
 }
 
 .field-item.locked:hover {
-  border-color: #f59e0b;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+  border-color: #fbbf24;
+  box-shadow: 0 1px 3px rgba(251, 191, 36, 0.1);
 }
 
 .field-item.locked.selected {
   border-color: #f59e0b;
-  background: #fef3c7;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  background: #fef9f3;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.08);
 }
 </style>
