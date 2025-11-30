@@ -252,6 +252,8 @@ locked: false
 fields.value = JSON.parse(JSON.stringify(defaultFields));
 
 watch(() => props.content?.initialSchema, (newSchema) => {
+console.log('📋 initialSchema recebido:', newSchema);
+
 if (newSchema) {
 let parsedSchema = null;
 
@@ -259,14 +261,30 @@ let parsedSchema = null;
 if (newSchema.schema && typeof newSchema.schema === 'string') {
 try {
 parsedSchema = JSON.parse(newSchema.schema);
+console.log('✅ Schema parsed de string:', parsedSchema);
 } catch (e) {
-console.error('Erro ao fazer parse do schema:', e);
+console.error('❌ Erro ao fazer parse do schema:', e);
 return;
 }
 }
 // Se já vem como objeto com fields
 else if (newSchema.fields) {
+// Se fields é um objeto (WeWeb format: {0: {...}, 1: {...}})
+if (typeof newSchema.fields === 'object' && !Array.isArray(newSchema.fields)) {
+const fieldsArray = Object.values(newSchema.fields);
+parsedSchema = { fields: fieldsArray };
+console.log('✅ Schema convertido de objeto para array:', parsedSchema);
+}
+// Se fields já é um array
+else if (Array.isArray(newSchema.fields)) {
 parsedSchema = newSchema;
+console.log('✅ Schema já é array:', parsedSchema);
+}
+}
+// Se vem diretamente como array
+else if (Array.isArray(newSchema)) {
+parsedSchema = { fields: newSchema };
+console.log('✅ Schema é array direto:', parsedSchema);
 }
 
 if (parsedSchema && Array.isArray(parsedSchema.fields)) {
@@ -274,6 +292,7 @@ if (parsedSchema && Array.isArray(parsedSchema.fields)) {
 const defaultFieldIds = defaultFields.map(f => f.id);
 const additionalFields = parsedSchema.fields.filter(f => !defaultFieldIds.includes(f.id));
 fields.value = [...JSON.parse(JSON.stringify(defaultFields)), ...additionalFields];
+console.log('✅ Fields atualizados:', fields.value);
 updateFormSchema();
 }
 }
