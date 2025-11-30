@@ -200,7 +200,7 @@ return true;
 return false;
 };
 
-// Campos obrigatórios padrão do sistema
+// Campos padrão do sistema
 const defaultFields = [
 {
 id: "3d0bd1a7-f76b-4322-97e9-6ff6ec22cfeb",
@@ -234,6 +234,17 @@ helpText: "",
 required: true,
 placeholder: "",
 locked: true
+},
+{
+id: "32a11d1a-52a9-42c7-8fee-a1e80a724d95",
+type: "textarea",
+label: "Observações (opcional)",
+fieldId: "field_1761658464249",
+helpText: "",
+required: false,
+maxLength: 500,
+placeholder: "Quer adicionar algo?",
+locked: false
 }
 ];
 

@@ -832,18 +832,18 @@ input:checked + .toggle-slider:before {
 }
 
 .field-item.locked {
-  border-color: #fbbf24;
-  background: #fefce8;
+  border-color: #e5e7eb;
+  background: #fafafa;
 }
 
 .field-item.locked:hover {
-  border-color: #fbbf24;
-  box-shadow: 0 1px 3px rgba(251, 191, 36, 0.1);
+  border-color: #d1d5db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .field-item.locked.selected {
-  border-color: #f59e0b;
-  background: #fef9f3;
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.08);
+  border-color: #3b82f6;
+  background: #eff6ff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 </style>
