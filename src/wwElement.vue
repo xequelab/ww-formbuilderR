@@ -114,6 +114,7 @@ fieldId: field.fieldId,
 placeholder: field.placeholder,
 required: field.required,
 helpText: field.helpText,
+...(field.locked && { locked: field.locked }),
 ...(field.options && { options: field.options }),
 ...(field.min !== null && field.min !== undefined && { min: field.min }),
 ...(field.max !== null && field.max !== undefined && { max: field.max }),
@@ -163,9 +164,10 @@ fieldsCount: fields.value.length
 const clearAllFields = () => {
 if (isEditing.value) return;
 
-const confirmed = wwLib.getFrontWindow().confirm('Tem certeza que deseja limpar todos os campos?');
+const confirmed = wwLib.getFrontWindow().confirm('Tem certeza que deseja limpar todos os campos adicionais? Os campos obrigatórios (Nome, Email, Telefone) serão mantidos.');
 if (confirmed) {
-fields.value = [];
+// Remove apenas campos não bloqueados
+fields.value = fields.value.filter(field => field.locked);
 selectedFieldId.value = null;
 updateFormSchema();
 
@@ -197,6 +199,49 @@ return true;
 }
 return false;
 };
+
+// Campos obrigatórios padrão do sistema
+const defaultFields = [
+{
+id: "3d0bd1a7-f76b-4322-97e9-6ff6ec22cfeb",
+type: "text",
+label: "Seu nome",
+fieldId: "field_1761658382742",
+helpText: "",
+required: false,
+maxLength: 60,
+placeholder: "",
+locked: true
+},
+{
+id: "1c1e5409-5f7d-4f04-b1bf-6d65a384f41f",
+type: "email",
+label: "E-mail",
+fieldId: "field_1761658439505",
+helpText: "",
+required: true,
+placeholder: "Digite seu email",
+locked: true
+},
+{
+id: "12c12c98-9c85-4d6a-a965-32fbf6e77559",
+mask: "(99) 99999-9999",
+type: "phone",
+label: "Telefone",
+country: "BR",
+fieldId: "field_1761658455873",
+helpText: "",
+required: true,
+placeholder: "",
+locked: true
+}
+];
+
+// Inicializa com campos padrão se não houver campos
+if (fields.value.length === 0) {
+fields.value = JSON.parse(JSON.stringify(defaultFields));
+updateFormSchema();
+}
 
 watch(() => props.content?.initialSchema, (newSchema) => {
 if (newSchema && fields.value.length === 0) {

@@ -9,11 +9,14 @@ keywords: form, builder, drag-and-drop, fields, schema, visual editor, form crea
 ***Purpose:***
 A comprehensive form builder component that provides an intuitive visual interface for creating and configuring forms. Users can drag field types from a palette onto a canvas, configure field properties in real-time, preview the form, and export the schema as JSON for integration with other systems.
 
+**Important:** All forms start with three mandatory locked fields (Name, Email, Phone) that cannot be removed. Users can only add additional fields.
+
 ***Features:***
 - Visual drag-and-drop interface with three-panel layout (palette, canvas, properties)
 - 8 field types: Text Input, Textarea, Number, Email, Select, Checkbox, Radio, Date
 - Real-time field configuration with type-specific options
 - Field reordering, duplication, and deletion
+- Locked fields system to prevent deletion of mandatory fields
 - Live form preview in modal
 - Automatic unique ID generation and validation
 - Required field indicators and help text support
@@ -31,7 +34,7 @@ A comprehensive form builder component that provides an intuitive visual interfa
 ***Exposed Actions:***
 - `exportSchema`: Returns the current form schema as JSON. No arguments.
 - `importSchema`: Imports a form schema. Args: schema (object with "fields" array)
-- `clearAllFields`: Clears all fields from the form builder. No arguments.
+- `clearAllFields`: Clears only unlocked fields from the form builder. Mandatory fields (Name, Email, Phone) are preserved. No arguments.
 
 ***Exposed Variables:***
 - formSchema: The complete form schema object containing all field definitions. (path: variables['[uid]-formSchema'])
@@ -73,6 +76,7 @@ A comprehensive form builder component that provides an intuitive visual interfa
       "fieldId": "field_identifier",
       "placeholder": "Placeholder text",
       "required": true|false,
+      "locked": true|false,
       "helpText": "Help text",
       "options": [{"label": "Option 1", "value": "opt1"}],
       "min": 0,
@@ -93,3 +97,6 @@ A comprehensive form builder component that provides an intuitive visual interfa
 - The component is fully responsive and adapts to different screen sizes
 - All field configurations are persisted in the formSchema variable
 - Import/Export functionality allows saving and loading form configurations
+- **Mandatory fields**: Every form automatically starts with three locked fields (Name, Email, Phone) that cannot be deleted or moved
+- **Locked fields**: Locked fields display an amber border and lock icon, cannot be deleted, duplicated, or dragged
+- **Clear All**: The "Clear All" button only removes unlocked fields, preserving the mandatory fields

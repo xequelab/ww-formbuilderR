@@ -21,6 +21,16 @@
     </div>
     
     <div v-else class="panel-content">
+      <div v-if="localField.locked" class="locked-field-notice">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <div class="locked-field-text">
+          <strong>Campo Bloqueado</strong>
+          <p>Este campo é obrigatório e não pode ser removido do formulário.</p>
+        </div>
+      </div>
+
       <div class="property-group">
         <label class="property-label">Rótulo</label>
         <input
@@ -803,5 +813,41 @@ background: #eff6ff;
 .add-option-btn svg {
 width: 16px;
 height: 16px;
+}
+
+.locked-field-notice {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #fffbeb;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.locked-field-notice svg {
+  width: 24px;
+  height: 24px;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.locked-field-text {
+  flex: 1;
+}
+
+.locked-field-text strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+
+.locked-field-text p {
+  font-size: 12px;
+  color: #78350f;
+  margin: 0;
+  line-height: 1.4;
 }
 </style>
